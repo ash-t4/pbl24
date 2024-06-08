@@ -1,0 +1,45 @@
+{
+  "main_players":[
+  {
+    "name": "Player 01",
+    "image": "./profile_pictures/badminton_profile.jpeg"
+  },
+  {
+    "name": "Player 02",
+    "image": "./profile_pictures/badminton_profile.jpeg"  },
+  {
+    "name": "Player 03",
+    "image": "./profile_pictures/badminton_profile.jpeg"
+  },
+  {
+    "name": "Player 04",
+    "image": "./profile_pictures/badminton_profile.jpeg"  },
+  {
+    "name": "Player 05",
+    "image": "./profile_pictures/badminton_profile.jpeg"  },
+  {
+    "name": "Player 06",
+    "image": "./profile_pictures/badminton_profile.jpeg"  },
+  {
+    "name": "Player 07",
+    "image": "./profile_pictures/badminton_profile.jpeg"  },
+  {
+    "name": "Player 08",
+    "image": "./profile_pictures/badminton_profile.jpeg"  }
+],
+
+"reserve_players":[
+  {
+    "name": "Player 01",
+    "image": "./profile_pictures/badminton_profile.jpeg"  },
+  {
+    "name": "Player 02",
+    "image": "./profile_pictures/badminton_profile.jpeg"  },
+  {
+    "name": "Player 03",
+    "image": "./profile_pictures/badminton_profile.jpeg"  },
+  {
+    "name": "Player 04",
+    "image": "./profile_pictures/badminton_profile.jpeg"  }
+]
+}

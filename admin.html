@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <link rel="apple-touch-icon" sizes="180x180" href="assets/img/favicons/favicon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/img/favicons/favicon.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="assets/img/favicons/favicon.png">
+  <link rel="manifest" href="assets/img/favicons/manifest.json">
+  <meta name="theme-color" content="#ffffff">
+
+  
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PBL Scoreboard</title>
+
+  <link href="../assets/css/admin-style.css" rel="stylesheet">
+</head>
+
+<body>
+  <script>
+    var minTimeOver;
+    var canCloseLoading;
+
+    function showLoading() {
+      canCloseLoading = false;
+      minTimeOver = false;
+      setTimeout(function () {
+        minTimeOver = true;
+        if (canCloseLoading) {
+          hideLoading();
+        }
+      }, 3000);
+      document.getElementById('loadingOverlay').style.display = 'block';
+    }
+
+    function hideLoading() {
+      if (minTimeOver) {
+        document.getElementById('loadingOverlay').style.display = 'none';
+      }
+      canCloseLoading = true;
+    }
+
+    const loadingOverlay = document.createElement('div');
+    loadingOverlay.id = 'loadingOverlay';
+    loadingOverlay.style.display = 'none';
+
+    const loadingImage = document.createElement('img');
+    loadingImage.src = '../assets/img/loading.gif';
+    loadingImage.alt = 'Loading...';
+    loadingImage.style.position = 'fixed';
+    loadingImage.style.top = '50%';
+    loadingImage.style.left = '50%';
+    loadingImage.style.transform = 'translate(-50%, -50%)';
+    loadingOverlay.appendChild(loadingImage);
+    document.body.appendChild(loadingOverlay);
+
+
+    showLoading();
+  </script>
+
+  <div id="authenticate" class="displayNone">
+    <div class="form-container">
+      <form id="loginForm">
+        <h1>Hello!<br>PBL Admin</h1>
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" required>
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" required>
+        <button type="submit">Login</button>
+      </form>
+    </div>
+  </div>
+
+
+  <div id="matches" class="displayNone">
+    <div id="matchesContainer">
+      <div class="new-match" onclick="showNewMatchForm()">New Match +</div>
+      <div class="matchesHandle" onclick="showMatches()" title="All matches">&#10097;</div>
+    </div>
+  </div>
+
+  <div id="invalidURL" class="displayNone"></div>
+
+  <div id="matchView">
+    <div class="matchTitle">
+      <input id="titleInput" placeholder="Enter match title" readonly>
+      <button id="titleEditButton" class="edit displayNone"
+        onclick="enableEdit('titleInput', 'titleEditButton')">&#x270E;</button>
+    </div>
+
+    <div id="matchTypeDiv">
+      <label for="matchType">Match type: </label>
+      <input id="matchType" readonly>
+    </div>
+
+    <div class="matchOptions">
+      <div>
+        <label for="isGroup">Group match</label>
+        <select id="isGroup" disabled>
+          <option value="NA">NA</option>
+          <option value="GROUP-A">Group A</option>
+          <option value="GROUP-B">Group B</option>
+          <option value="GROUP-C">Group C</option>
+          <option value="GROUP-D">Group D</option>
+
+        </select>
+      </div>
+      <div>
+        <label for="isTrump">Trump match</label>
+        <select id="isTrump" disabled>
+          <option value="no">No</option>
+          <option value="teamA">Team A</option>
+          <option value="teamB">Team B</option>
+          <option value="teamA,teamB">A and B</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="container">
+      <div class="row">
+        <div class="col col-heading">
+          <select id="homeInput" disabled></select>
+        </div>
+        <div>
+          <input id="homePlayersInput" readonly></input>
+          <button id="homePlayersEditButton" class="edit displayNone"
+            onclick="enableEdit('homePlayersInput', 'homePlayersEditButton')">&#x270E;</button>
+        </div>
+        <div class="col col-display" id="scoreHome">0</div>
+        <div class="col col-points">
+          <button class="add" onClick="updateScore('home', 1)">+1</button>
+          <button class="sub" onClick="updateScore('home', -1)">-1</button>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col col-heading">
+          <select id="guestInput" disabled></select>
+        </div>
+        <div>
+          <input id="guestPlayersInput" readonly></input>
+          <button id="guestPlayersEditButton" class="edit displayNone"
+            onclick="enableEdit('guestPlayersInput', 'guestPlayersEditButton')">&#x270E;</button>
+        </div>
+        <div class="col col-display" id="scoreGuest">0</div>
+        <div class="col col-points">
+          <button class="add" onClick="updateScore('guest', 1)">+1</button>
+          <button class="sub" onClick="updateScore('guest', -1)">-1</button>
+        </div>
+      </div>
+    </div>
+    <div class="actionsContainer">
+      <button id="liveButton">
+        <div id="liveButtonIndicator"></div>
+        <div id="liveButtonContent"> Live!</div>
+      </button>
+      <button id="updateButton">Update status</button>
+    </div>
+    <div id="editedBy">Match status: <span id="matchStat"></span>Details last updated by: <span
+        id="editedByName"></span></div>
+  </div>
+  <div id="qrcode" class="displayNone">
+    <div class="icon" title="Share as QR">&#9974;</div>
+    <div class="container displayNone"></div>
+  </div>
+</body>
+
+<script src="../assets/js/admin-script.js"></script>
+
+<script type="module">
+  function getQueryParam(param) {
+    const urlParams = new URLSearchParams(window.location.search);
+    return urlParams.get(param);
+  }
+
+  var view = "";
+  var uid = "";
+
+  function renderContent() {
+    view = getQueryParam('view');
+    matchKey = getQueryParam('match');
+    subMatchKey = getQueryParam('sub-match');
+
+    if (matchKey === null || subMatchKey === null) {
+      window.createNewMatch = true;
+    }
+  }
+
+  renderContent();
+  // Listen for changes in the URL (if the user navigates within the app)
+  window.onpopstate = renderContent;
+
+  import {initializeApp} from "https://www.gstatic.com/firebasejs/9.19.1/firebase-app.js";
+  import {getDatabase, ref, set, get, child, onValue} from "https://www.gstatic.com/firebasejs/9.19.1/firebase-database.js";
+  import {getAuth, signInWithEmailAndPassword} from "https://www.gstatic.com/firebasejs/9.19.1/firebase-auth.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyCaGqqveCkXhTfdqjSFna64zRfLhTXwY8A",
+    authDomain: "pbl-24.firebaseapp.com",
+    databaseURL: "https://pbl-24-default-rtdb.firebaseio.com",
+    projectId: "pbl-24",
+    storageBucket: "pbl-24.appspot.com",
+    messagingSenderId: "398054851658",
+    appId: "1:398054851658:web:2e0720f489a488555112b3"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const db = getDatabase(app);
+
+  document.getElementById('loginForm').addEventListener('submit', (e) => {
+    e.preventDefault();
+
+    const email = loginForm.email.value;
+    const password = loginForm.password.value;
+    signInWithEmailAndPassword(auth, email, password)
+      .then((creds) => {
+        uid = creds.user.email;
+        checkAndShow();
+      })
+      .catch((error) => {
+        console.log(error);
+        alert("Incorrect login credentials");
+      })
+  });
+
+  document.getElementById("updateButton").addEventListener('click', function (e) {
+    e.preventDefault();
+
+    let titleInputValue = document.getElementById("titleInput").value;
+    let homeInputValue = document.getElementById("homeInput").value;
+    let guestInputValue = document.getElementById("guestInput").value;
+    let isTrumpValue = document.getElementById("isTrump").value;
+    let isGroupMatch = document.getElementById("isGroup").value;
+    let homePlayers = document.getElementById('homePlayersInput').value;
+    let guestPlayers = document.getElementById('guestPlayersInput').value;
+
+    if (!titleInputValue || !homeInputValue || !guestInputValue || !isTrumpValue) {
+      alert("Please fill in all fields before updating.");
+      return;
+    }
+
+    let subTypes = [];
+    if (window.createNewMatch) {
+      subTypes = ["MS-1", "WS", "MD", "MS-2", "MX"];
+      matchStatus = "scheduled";
+    } else {
+      subTypes.push(document.getElementById("matchType").value);
+    }
+
+    for (let i = 0; i < subTypes.length; i++) {
+      set(ref(db, 'matches/' + generateId(titleInputValue) + '/' + subTypes[i]), {
+        title: titleInputValue,
+        teamA: homeInputValue,
+        teamB: guestInputValue,
+        teamAPlayers: homePlayers,
+        teamBPlayers: guestPlayers,
+        teamAScore: homeCount,
+        teamBScore: guestCount,
+        matchStatus: matchStatus,
+        subMatchType: subTypes[i],
+        isTMatch: isTrumpValue,
+        isGroupMatch: isGroupMatch,
+        editedBy: uid
+      }).then(() => {
+      }).catch((error) => {
+        console.error("Error updating database:", error);
+        showToast("Error updating database. Please try again later.");
+      });
+    }
+
+    showToast("Update successful");
+    window.createNewMatch = false;
+  });
+
+  function setupDatabaseListener() {
+    const matchesRef = ref(db, "matches");
+    onValue(matchesRef, (snapshot) => {
+      if (snapshot.exists()) {
+        const matchesData = snapshot.val();
+        console.log("Match data updated:", matchesData);
+        if (!window.createNewMatch) {
+          updateUI(matchesData[matchKey][subMatchKey]);
+          updateTrumpInputValues(matchesData[matchKey]);
+        }
+        renderMatchListForAdmin(matchesData);
+      } else {
+        console.log("No matches found.");
+        window.createNewMatch = true;
+        hideLoading();
+      }
+    }, (error) => {
+      console.error("Error listening to database changes:", error);
+    });
+  }
+
+  window.showSelectedMatchDetails = function (matchKey, subMatchKey) {
+    const matchRef = ref(db, "matches/" + matchKey);
+    get(matchRef).then((snapshot) => {
+      if (snapshot.exists()) {
+        const matchDetails = snapshot.val();
+        console.log("Requested match details:", matchDetails[subMatchKey]);
+
+        updateUI(matchDetails[subMatchKey]);
+        updateTrumpInputValues(matchDetails);
+
+        window.matchKey = matchKey;
+        window.subMatchKey = subMatchKey;
+        window.createNewMatch = false;
+        history.replaceState(null, null, "?view=admin&match=" + matchKey + "&sub-match=" + subMatchKey);
+      } else {
+        console.log("No match details found.");
+      }
+    }).catch((error) => {
+      console.error("Error fetching match details:", error);
+    });
+  }
+
+  function updateTrumpInputValues(matchDetails) {
+    let isTrumpAOver = false;
+    let isTrumpBOver = false;
+
+    Object.keys(matchDetails).forEach((subMatch) => {
+      if (matchDetails[subMatch]["isTMatch"].includes("teamA")) {
+        isTrumpAOver = true;
+      }
+      
+      if (matchDetails[subMatch]["isTMatch"].includes("teamB")) {
+        isTrumpBOver = true;
+      }
+    });
+
+    const selectElement = document.getElementById('isTrump');
+    selectElement.innerHTML = '';
+
+    const noOption = document.createElement('option');
+    noOption.value = 'No';
+    noOption.textContent = 'No';
+    selectElement.appendChild(noOption);
+
+    if (!isTrumpAOver || window.isTMatch === "teamA") {
+      const teamAOption = document.createElement('option');
+      teamAOption.value = 'teamA';
+      teamAOption.textContent = 'teamA';
+      selectElement.appendChild(teamAOption);
+    }
+
+    if (!isTrumpBOver || window.isTMatch === "teamB") {
+      const teamBOption = document.createElement('option');
+      teamBOption.value = 'teamB';
+      teamBOption.textContent = 'teamB';
+      selectElement.appendChild(teamBOption);
+    }
+
+    if ((!isTrumpBOver && !isTrumpAOver) || window.isTMatch === "teamA,teamB") {
+      const teamBOption = document.createElement('option');
+      teamBOption.value = 'teamA,teamB';
+      teamBOption.textContent = 'A and B';
+      selectElement.appendChild(teamBOption);
+    }
+    
+    selectElement.value = window.isTMatch;
+  }
+
+
+
+  function updateUI(matchDetails) {
+    if (matchDetails) {
+      window.homeCount = 0;
+      window.guestCount = 0;
+      window.homeTeamName = "";
+      window.guestTeamName = "";
+      window.homeTeamPlayers = "";
+      window.guestTeamPlayers = "";
+      window.matchStatus = "";
+      window.isTMatch = "no";
+      window.isGroupMatch = "no";
+      window.subMatchType;
+      window.editedBy = "";
+      window.scoreHomeEl = document.getElementById("scoreHome");
+      window.scoreGuestEl = document.getElementById("scoreGuest");
+      window.titleInput = document.getElementById("titleInput");
+      window.matchTypeInput = document.getElementById("matchType");
+      window.isTmatchInput = document.getElementById("isTrump");
+      window.isGroupMatchInput = document.getElementById("isGroup");
+
+      homeCount = matchDetails.teamAScore;
+      guestCount = matchDetails.teamBScore;
+      homeTeamName = matchDetails.teamA;
+      guestTeamName = matchDetails.teamB;
+      homeTeamPlayers = matchDetails.teamAPlayers;
+      guestTeamPlayers = matchDetails.teamBPlayers;
+      matchStatus = matchDetails.matchStatus;
+      window.subMatchType = matchDetails.subMatchType;
+      isTMatch = matchDetails.isTMatch;
+      isGroupMatch = matchDetails.isGroupMatch;
+      titleInput.value = matchDetails.title;
+
+      document.getElementById("homeInput").value = homeTeamName;
+      document.getElementById("guestInput").value = guestTeamName;
+
+      document.getElementById("homePlayersInput").value = homeTeamPlayers;
+      document.getElementById("guestPlayersInput").value = guestTeamPlayers;
+
+      document.getElementById("editedByName").innerText = matchDetails.editedBy;
+      document.getElementById("matchStat").innerText = matchDetails.matchStatus;
+
+      scoreHomeEl.textContent = homeCount;
+      scoreGuestEl.textContent = guestCount;
+      matchTypeInput.value = subMatchType;
+      isTmatchInput.value = isTMatch;
+      isGroupMatchInput.value = isGroupMatch;
+
+      let liveButtonCont = document.getElementById("liveButtonContent");
+      let liveButtonIdic = document.getElementById("liveButtonIndicator");
+      liveButtonCont.textContent = matchStatus === "live" ? "End Match" : "Go Live!";
+      if (matchStatus === "live") {
+        liveButtonIdic.classList.add("pulse");
+      } else {
+        liveButtonIdic.classList.remove("pulse");
+      }
+    } else {
+      console.log("No match details found.");
+    }
+
+    hideLoading();
+  }
+
+  function finalShow() {
+    document.getElementById("authenticate").classList.add("displayNone");
+    if (view === "admin" && auth.currentUser.uid == "cmOQfSkdgLSHdYEcDayQnUhy4cJ2") {
+      setupDatabaseListener();
+      showAdminPage();
+    } else if (view === "score-board") {
+      setupDatabaseListener();
+    } else {
+      showInvalidURL();
+    }
+  }
+
+  var auth;
+  var user;
+
+  function checkAndShow() {
+    auth = getAuth(app);
+    user = auth.currentUser;
+
+    if (!user) {
+      document.getElementById("authenticate").classList.remove("displayNone");
+      document.getElementById("matchView").classList.add("displayNone");
+      hideLoading();
+    } else {
+      document.getElementById("matchView").classList.remove("displayNone");
+      finalShow();
+    }
+  }
+
+  checkAndShow()
+
+
+</script>
+
+</html>

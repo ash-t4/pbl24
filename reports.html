@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en-US" dir="ltr">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+  <!-- ===============================================-->
+  <!--    Document Title-->
+  <!-- ===============================================-->
+  <title>PBL | Match Reports</title>
+
+
+  <!-- ===============================================-->
+  <!--    Favicons-->
+  <!-- ===============================================-->
+  <link rel="apple-touch-icon" sizes="180x180" href="assets/img/favicons/favicon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/img/favicons/favicon.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="assets/img/favicons/favicon.png">
+  <link rel="manifest" href="assets/img/favicons/manifest.json">
+  <meta name="theme-color" content="#ffffff">
+
+
+  <!-- ===============================================-->
+  <!--    Stylesheets-->
+  <!-- ===============================================-->
+  <link href="assets/css/theme.css" rel="stylesheet" />
+  <link href="assets/css/score.css" rel="stylesheet" />
+</head>
+
+<body>
+
+    <!-- ============================================-->
+    <!-- <section> begin ============================-->
+
+  <section id="matchReports" class="py-6 pb-6" style="overflow: hidden;overflow-y: scroll;">
+    <div class="container">
+      <div class="row flex-center h-100">
+        <div class="col-lg-7 mx-auto text-center">
+          <h5 class="fs-3 fs-lg-5 lh-sm mb-2 text-uppercase">Match Reports</h5>
+        </div>
+        <div class="col-xl-9">
+          <div id="reports-container" class="row mt-5 flex-center"></div>
+        </div>
+      </div>
+    </div>
+    <div class="flex-center my-3">
+      <div class="col-md-6 order-1 order-md-0" style="margin-left: 2rem">
+        <p class="my-2 mx-3 text-800 text-center text-md-start"> Made with&nbsp;
+          <svg class="bi bi-suit-heart-fill" xmlns="http://www.w3.org/2000/svg" width="15" height="15" fill="#EB6453"
+            viewBox="0 0 16 16">
+            <path
+              d="M4 1c2.21 0 4 1.755 4 3.92C8 2.755 9.79 1 12 1s4 1.755 4 3.92c0 3.263-3.234 4.414-7.608 9.608a.513.513 0 0 1-.784 0C3.234 9.334 0 8.183 0 4.92 0 2.755 1.79 1 4 1z"
+              style="animation: pulse 1s infinite;">
+            </path>
+          </svg>&nbsp;by&nbsp;<a class="text-500" href="../our_team.html" target="_blank">PBL WebOps Team </a>
+        </p>
+      </div>
+      <div class="col-md-6">
+      </div>
+    </div>
+    </div>
+  </section>
+
+    <!-- end of .container-->
+
+    <!-- <section> close ============================-->
+    <!-- ============================================-->
+
+  </main>
+  <!-- ===============================================-->
+  <!--    End of Main Content-->
+  <!-- ===============================================-->
+
+  <!-- ===============================================-->
+  <!--    JavaScripts-->
+  <!-- ===============================================-->
+  <script src="vendors/@popperjs/popper.min.js"></script>
+  <script src="vendors/bootstrap/bootstrap.min.js"></script>
+  <script src="vendors/is/is.min.js"></script>
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=window.scroll"></script>
+  <script src="vendors/feather-icons/feather.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
+  <script>
+    feather.replace();
+  </script>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@300;700&amp;display=swap" rel="stylesheet">
+</body>
+</script>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      fetchMatchReports();
+    });
+
+    async function fetchMatchReports() {
+      try {
+        console.log("Starting to fetch match reports...");
+        const response = await fetch('../match_reports.json');
+        if (!response.ok) {
+          throw new Error('Network response was not ok ' + response.statusText);
+        }
+        const reports = await response.json();
+        displayReports(reports);
+      } catch (error) {
+        console.error('There has been a problem with your fetch operation:', error);
+      }
+    }
+
+    function displayReports(reports) {
+      const reportsContainer = document.getElementById('reports-container');
+
+      if (!reportsContainer) {
+        console.error("Reports container not found!");
+        return;
+      }
+
+      reports.forEach(report => {
+        // Create card
+        const card = document.createElement('div');
+        card.className = 'card mb-4 shadow card-span p-3 text-white';
+        card.style.borderRadius = '10px';
+        card.style.backgroundColor = '#212121';
+        card.style.overflow = 'hidden';
+        card.style.width = "90%";
+
+        // Card body
+        const cardBody = document.createElement('div');
+        cardBody.className = 'card-body';
+        cardBody.style.backgroundColor = '#212121';
+        cardBody.style.position = 'relative';
+
+        // Truncate summary if it's too long
+        const truncatedSummary = truncateSummary(report.summary, 150);
+
+        // Card content
+        cardBody.innerHTML = `
+          <div class="flex-1" style="background-color: rgb(33, 33, 33);text-align: justify;">
+            <h6 class="fs-lg-1 mb-1 text-uppercase text-center">${report.header}</h6>
+            <p class="mb-1 text-muted text-center">${report.reporter}</p>
+            <p class="mb-0 mt-4 fw-light lh-lg summary">${truncatedSummary}<span class="more-text" style="display:none;">${report.summary.substring(100)}</span></p>
+            <div class="text-end">
+              <button class="btn btn-link text-white read-more-btn" style="background: none; border: none; cursor: pointer; padding: 0; font-size: 0.9em; color: inherit;">Read More</button>
+            </div>
+          </div>
+        `;
+
+        // Append card body to card
+        card.appendChild(cardBody);
+
+        // Append card to reports container
+        reportsContainer.appendChild(card);
+      });
+
+      // Add event listeners for Read More buttons
+      document.querySelectorAll('.read-more-btn').forEach(button => {
+        button.addEventListener('click', (e) => {
+          const summaryElement = e.target.closest('.text-end').previousElementSibling;
+          const moreText = summaryElement.querySelector('.more-text');
+          if (moreText.style.display === 'none') {
+            moreText.style.display = 'inline';
+            e.target.textContent = 'Read Less';
+          } else {
+            moreText.style.display = 'none';
+            e.target.textContent = 'Read More';
+          }
+        });
+      });
+
+      console.log("Reports displayed successfully!");
+    }
+
+    function truncateSummary(text, maxLength) {
+      if (text.length <= maxLength) {
+        return text;
+      }
+      return text.substring(0, maxLength);
+    }
+
+  </script>
+</html>

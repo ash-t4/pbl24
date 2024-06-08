@@ -1,0 +1,179 @@
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+  <!-- ===============================================-->
+  <!--    Document Title-->
+  <!-- ===============================================-->
+  <title>PBL | Fixtures</title>
+  <!-- ===============================================-->
+  <!--    Favicons-->
+  <!-- ===============================================-->
+  <link rel="apple-touch-icon" sizes="180x180" href="assets/img/favicons/favicon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/img/favicons/favicon.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="assets/img/favicons/favicon.png">
+  <link rel="manifest" href="assets/img/favicons/manifest.json">
+  <meta name="theme-color" content="#ffffff">
+
+
+  <link href="assets/css/score.css" rel="stylesheet" />
+
+</head>
+<style>
+  html,
+  body {
+    margin: 0;
+    padding: 0;
+    background-color: black;
+  }
+
+  ::-webkit-scrollbar {
+    width: 0px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: black;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background-color: darkgrey;
+    border: 1px solid black;
+  }
+
+  h1 {
+    margin: 20px 30px;
+  }
+
+  #fixturesContainerMain {
+    display: flex;
+    gap: 40px;
+    flex-wrap: wrap;
+    margin: 30px;
+  }
+
+  @media (max-width: 500px) {
+    #fixturesContainerMain {
+      flex-direction: column;
+      gap: 20px;
+      padding: 5px;
+      margin: 10px;
+    }
+
+    #fixturesContainerMain>div {
+      width: 100%;
+    }
+  }
+</style>
+
+<body></body>
+<script>
+  var minTimeOver;
+  var canCloseLoading;
+
+  function showLoading() {
+    canCloseLoading = false;
+    minTimeOver = false;
+    setTimeout(function () {
+      minTimeOver = true;
+      if (canCloseLoading) {
+        hideLoading();
+      }
+    }, 3000);
+    document.getElementById('loadingOverlay').style.display = 'block';
+  }
+
+  function hideLoading() {
+    if (minTimeOver) {
+      document.getElementById('loadingOverlay').style.display = 'none';
+    }
+    canCloseLoading = true;
+  }
+
+  const loadingOverlay = document.createElement('div');
+  loadingOverlay.id = 'loadingOverlay';
+  loadingOverlay.style.display = 'none';
+
+  const loadingImage = document.createElement('img');
+  loadingImage.src = 'assets/img/loading.gif';
+  loadingImage.alt = 'Loading...';
+  loadingImage.style.position = 'fixed';
+  loadingImage.style.top = '50%';
+  loadingImage.style.left = '50%';
+  loadingImage.style.transform = 'translate(-50%, -50%)';
+  loadingOverlay.appendChild(loadingImage);
+  document.body.appendChild(loadingOverlay);
+
+  showLoading();
+
+</script>
+
+
+<h1>Fixtures</h1>
+<p id="noSchedule" class="fs-2 fs-lg-1 lh-sm mb-1" style="display:none;margin:20px;">Matches are yet to be scheduled.</p>
+<div id="fixturesContainerMain"></div>
+<script src="src/js/live-score.js"></script>
+<script type="module">
+  import {initializeApp} from "https://www.gstatic.com/firebasejs/9.19.1/firebase-app.js";
+  import {getDatabase, ref, set, get, child, onValue} from "https://www.gstatic.com/firebasejs/9.19.1/firebase-database.js";
+  import {getAuth, signInWithEmailAndPassword} from "https://www.gstatic.com/firebasejs/9.19.1/firebase-auth.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyCaGqqveCkXhTfdqjSFna64zRfLhTXwY8A",
+    authDomain: "pbl-24.firebaseapp.com",
+    databaseURL: "https://pbl-24-default-rtdb.firebaseio.com",
+    projectId: "pbl-24",
+    storageBucket: "pbl-24.appspot.com",
+    messagingSenderId: "398054851658",
+    appId: "1:398054851658:web:2e0720f489a488555112b3"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const db = getDatabase(app);
+
+  function setupDatabaseListener() {
+    const matchesRef = ref(db, "matches");
+    onValue(matchesRef, (snapshot) => {
+      if (snapshot.exists()) {
+        const matchesData = snapshot.val();
+        console.log(matchesData);
+        if (matchesData == ""){
+          document.getElementById("noSchedule").style.display = "block";
+        }
+        createFixtures(matchesData, false);
+        hideLoading();
+      } else {
+        console.log("No matches found.");
+      }
+    }, (error) => {
+      console.error("Error listening to database changes:", error);
+    });
+  }
+
+  function getValueForKey(key) {
+    const dbRef = ref(db, key);
+    return get(dbRef).then((snapshot) => {
+      if (snapshot.exists()) {
+        return snapshot.val();
+      } else {
+        console.log("No data available for the specified key.");
+        return null;
+      }
+    }).catch((error) => {
+      console.error("Error getting value for key:", error);
+    });
+  }
+
+  getValueForKey("allowDBAccess").then(value => {
+    console.log("Value for key:", value);
+    if (value) {
+      setupDatabaseListener();
+    } else {
+      document.getElementById("liveScoreSec").style.display = "none";
+      document.getElementById("standingsSec").style.display = "none";
+      hideLoading();
+    }
+  });
+
+</script>

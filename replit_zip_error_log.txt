@@ -1,0 +1,4 @@
+{"error":".zip archives do not support non-regular files","level":"error","msg":"unable to write file .cache/replit/modules/replit","time":"2024-05-27T15:22:30Z"}
+{"error":".zip archives do not support non-regular files","level":"error","msg":"unable to write file .cache/replit/modules/web","time":"2024-05-27T15:22:30Z"}
+{"error":".zip archives do not support non-regular files","level":"error","msg":"unable to write file .cache/typescript/5.3/node_modules/.bin/parser","time":"2024-05-27T15:22:30Z"}
+{"error":".zip archives do not support non-regular files","level":"error","msg":"unable to write file .cache/typescript/5.4/node_modules/.bin/parser","time":"2024-05-27T15:22:32Z"}

@@ -1,0 +1,632 @@
+<!DOCTYPE html>
+<html lang="en-US" dir="ltr">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+  <!-- ===============================================-->
+  <!--    Document Title-->
+  <!-- ===============================================-->
+  <title>PBL | Live Score</title>
+
+
+  <!-- ===============================================-->
+  <!--    Favicons-->
+  <!-- ===============================================-->
+  <link rel="apple-touch-icon" sizes="180x180" href="assets/img/favicons/favicon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/img/favicons/favicon.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="assets/img/favicons/favicon.png">
+  <link rel="manifest" href="assets/img/favicons/manifest.json">
+  <meta name="theme-color" content="#ffffff">
+
+
+  <!-- ===============================================-->
+  <!--    Stylesheets-->
+  <!-- ===============================================-->
+  <link href="assets/css/theme.css" rel="stylesheet" />
+  <link href="assets/css/score.css" rel="stylesheet" />
+  <link href="assets/css/teams.css" rel="stylesheet" />
+
+</head>
+
+<script>
+  var minTimeOver;
+  var canCloseLoading;
+
+  function showLoading() {
+    canCloseLoading = false;
+    minTimeOver = false;
+    setTimeout(function () {
+      minTimeOver = true;
+      if (canCloseLoading) {
+        hideLoading();
+      }
+    }, 3000);
+    document.getElementById('loadingOverlay').style.display = 'block';
+  }
+
+  function hideLoading() {
+    if (minTimeOver) {
+      document.getElementById('loadingOverlay').style.display = 'none';
+    }
+    canCloseLoading = true;
+  }
+</script>
+
+
+<body>
+  <script>
+    const loadingOverlay = document.createElement('div');
+    loadingOverlay.id = 'loadingOverlay';
+    loadingOverlay.style.display = 'none';
+
+    const loadingImage = document.createElement('img');
+    loadingImage.src = 'assets/img/loading.gif';
+    loadingImage.alt = 'Loading...';
+    loadingImage.style.position = 'fixed';
+    loadingImage.style.top = '50%';
+    loadingImage.style.left = '50%';
+    loadingImage.style.transform = 'translate(-50%, -50%)';
+    loadingOverlay.appendChild(loadingImage);
+    document.body.appendChild(loadingOverlay);
+    showLoading();
+  </script>
+  <!-- ===============================================-->
+  <!--    Main Content-->
+  <!-- ===============================================-->
+  <main class="main" id="top">
+    <nav class="navbar navbar-expand-lg navbar-light fixed-top py-3 d-block"
+      data-navbar-on-scroll="data-navbar-on-scroll">
+      <div class="container"><a class="navbar-brand d-inline-flex" href="index.html"><span class="fs-2 fw-bold ms-2">PBL
+            24</span></a>
+        <button class="navbar-toggler collapsed" type="button" data-bs-toggle="collapse"
+          data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+          aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+        <div class="collapse navbar-collapse border-top border-lg-0 mt-4 mt-lg-0" id="navbarSupportedContent">
+          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <li class="nav-item px-2"><a class="nav-link fw-bold" href="#score">LIVE SCORE</a></li>
+            <li class="nav-item px-2"><a class="nav-link fw-bold" href="#fixtures">FIXTURES</a></li>
+            <li class="nav-item px-2"><a class="nav-link fw-bold" href="#teams">TEAMS</a></li>
+            <li class="nav-item px-2"><a class="nav-link fw-bold" href="#matchReports">MATCH REPORTS</a></li>
+            <li class="nav-item px-2"><a class="nav-link fw-bold"
+                href="https://docs.google.com/document/d/1AnE2V2siDUB653uIJF4NtQLjvVj4Kil0okevxT5Zflw/edit?usp=sharing"
+                target="blank">RULES</a></li>
+            <li class="nav-item px-2"><a class="nav-link fw-bold" href="#contact">CONTACT</a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+    <section class="py-0" id="header">
+      <div class="bg-holder"
+        style="background-image:url(assets/img/bg.avif);background-position:right;background-size:contain;scale:0.7;">
+      </div>
+      <!--/.bg-holder-->
+      <div id="titleContainer" class="container">
+        <div class="row align-items-center min-vh-100 min-vh-xl-100">
+          <div id="titleHolder" class="col-md-8 col-lg-6 text-md-start text-center">
+            <h1 class="display-1 lh-sm text-uppercase">PARADOX BADMINTON LEAGUE</h1>
+            <a id="takeMe" class="btn btn-sm btn-outline-primary me-3" href="#score">
+              <img src="assets/img/live-pulse.gif" class="" width="20" height="20"
+                style="scale:1.8;margin-left:-10px;padding-bottom:1px;">
+              Live Score
+            </a>
+            <a class="btn btn-sm btn-outline-primary" href="#contact">Location</a>
+          </div>
+        </div>
+      </div>
+      </div>
+    </section>
+
+    <!-- ============================================-->
+    <!-- <section> begin ============================-->
+    <section class="py-6 bg-dark">
+      <div class="container">
+        <div class="column">
+          <div class="text-center">
+            <h5 class="fs-3 fs-lg-5 lh-sm mb-4 text-uppercase">ABOUT PBL</h5>
+          </div>
+
+          <div class="d-flex flex-center text-justify text-400 mx-3" style="font-size:18px;">
+            Smash your way to victory in the ultimate showdown of shuttlecock supremacy! Join us for a high-flying
+            badminton battle where every rally counts and every point is a heart-pounding triumph. From lightning-fast
+            serves to gravity-defying smashes, this competition is where champions are made amongst you all amigos. Grab
+            your racket, lace up your shoes, and get ready to soar above the competition in a whirlwind of speed, skill,
+            and strategy. Whether you're a seasoned pro or a newcomer to the court, there's a place for you all in this
+            exhilarating tournament Paradox Badminton League. So, sharpen your reflexes, unleash your inner shuttlecock
+            slayer, and let the games begin! It's time to smash, drop, and volley your way to badminton glory!
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- <section> close ============================-->
+    <!-- ============================================-->
+
+    <section id="winnerSec" style="display:none;" class="py-6">
+      <div class="container">
+        <div class="column">
+          <div class="text-center">
+            <h5 class="fs-3 fs-lg-5 lh-sm mb-4 text-uppercase">Announcing the winner of PBL-24</h5>
+          </div>
+          <div class="App">
+            <div class="card js-confetti">
+              <div class='image'></div>
+              <div class="back"></div>
+              <img src="" alt='profile-picture' />
+              <div class="infos">
+                <h3></h3>
+              </div>
+            </div>
+          </div>
+          <a id="teamPageLink" class="fs-lg-1 mb-1 mt-3 text-center" target="_blank" style="display:none;color: #B98F7D;">View the team</a>
+        </div>
+      </div>
+    </section>
+
+    <section id="liveScoreSec" class=".bg-dark py-4 pt-0">
+      <div class="container-lg">
+        <div class="row">
+          <div class="col-lg-7 mt-7 mb-4">
+            <h5 class="fs-3 fs-lg-5 lh-sm mb-2 text-uppercase" id="score">score update</h5>
+            <a class="mt-2 mb-2 btn-sm text-uppercase btn btn-outline-primary" onclick="window.open('../fixtures.html')"
+              id="fixtures">All Fixtures ></a>
+          </div>
+        </div>
+
+
+        <div class="row flex-top" id="fixturesContainerMain">
+          <div class="row flex-top" id="noFixturesContainer">
+
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="standingsSec" class=".bg-dark py-4 pt-0">
+      <div class="container-lg">
+        <div class="col-lg-7 mt-7">
+          <h5 class="fs-3 fs-lg-5 lh-sm mb-5 text-uppercase" id="score">STANDINGS</h5>
+        </div>
+        <div class="row flex-top" id="standingsContainer">
+        </div>
+        <p class="fs-lg-1 mb-1 mt-3 text-center" style="color: #B98F7D;">MP - Matches Played | W - Wins | L - Loss | Pts - Points | PD - Point Difference</p>
+      </div>
+      </div>
+    </section>
+
+
+    <section class="py-0 pb-6">
+      <div class="container">
+        <div class="row h-100">
+          <div class="col-lg-7 mt-7">
+            <h5 class="fs-3 fs-lg-5 lh-sm mb-5 text-uppercase" id="teams">teams</h5>
+          </div>
+          <div class="col-12">
+            <div class="tab-content" id="nav-tabContent">
+              <div class="tab-pane fade show active" id="nav-latest" role="tabpanel" aria-labelledby="nav-latest-tab">
+                <div class="carousel slide" id="carouselLatest" data-bs-ride="carousel">
+                  <div class="carousel-inner">
+                    <div class="carousel-item active" data-bs-interval="10000">
+                      <div class="row h-100 align-items-center">
+                        <div class="col-sm-6 col-md-4 mb-3 mb-md-0">
+                          <div class="card bg-black text-white p-6 pb-8"><img class="card-img"
+                              src="assets/img/team_icons/Bandipur Blazers.png" alt="..." />
+                            <div
+                              class="card-img-overlay bg-dark-gradient d-flex flex-column-reverse align-items-center">
+                              <h6 class="text-primary">Serve it, smash it, win it, love it.</h6>
+                              <h4 class="text-light">BANDIPUR BLAZERS</h4>
+                            </div><a class="stretched-link" href="teams/bandipur.html" target="_blank"></a>
+                          </div>
+                        </div>
+                        <div class="col-sm-6 col-md-4 mb-3 mb-md-0">
+                          <div class="card bg-black text-white p-6 pb-8"><img class="card-img"
+                              src="assets/img/team_icons/Corbett Crushers.png" alt="..." />
+                            <div
+                              class="card-img-overlay bg-dark-gradient d-flex flex-column-reverse align-items-center">
+                              <h6 class="text-primary">We Don't Just Play, We Slay!</h6>
+                              <h4 class="text-light">CORBETT CRUSHERS</h4>
+                            </div><a class="stretched-link" href="teams/corbett.html" target="_blank"></a>
+                          </div>
+                        </div>
+                        <div class="col-sm-6 col-md-4 mb-3 mb-md-0">
+                          <div class="card bg-black text-white p-6 pb-8"><img class="card-img"
+                              src="assets/img/team_icons/Gir Gliders.png" alt="..." />
+                            <div
+                              class="card-img-overlay bg-dark-gradient d-flex flex-column-reverse align-items-center">
+                              <h6 class="text-primary">Gliding with Pride! </h6>
+                              <h4 class="text-light">GIR GLIDERS</h4>
+                            </div><a class="stretched-link" href="teams/gir.html" target="_blank"></a>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="carousel-item" data-bs-interval="5000">
+                      <div class="row h-100 align-items-center">
+                        <div class="col-sm-6 col-md-4 mb-3 mb-md-0">
+                          <div class="card bg-black text-white p-6 pb-8"><img class="card-img"
+                              src="assets/img/team_icons/Kanha Knights.png" alt="..." />
+                            <div
+                              class="card-img-overlay bg-dark-gradient d-flex flex-column-reverse align-items-center">
+                              <h6 class="text-primary">Unyielding Might, Champions in the Fight</h6>
+                              <h4 class="text-light">KANHA KNIGHTS</h4>
+                            </div><a class="stretched-link" href="teams/kanha.html" target="_blank"></a>
+                          </div>
+                        </div>
+                        <div class="col-sm-6 col-md-4 mb-3 mb-md-0">
+                          <div class="card bg-black text-white p-6 pb-8"><img class="card-img"
+                              src="assets/img/team_icons/Kaziranga Kaisers.png" alt="..." />
+                            <div
+                              class="card-img-overlay bg-dark-gradient d-flex flex-column-reverse align-items-center">
+                              <h6 class="text-primary">Lord of the Strings</h6>
+                              <h4 class="text-light">KAZIRANGA KAISERS</h4>
+                            </div><a class="stretched-link" href="teams/kaziranga.html" target="_blank"></a>
+                          </div>
+                        </div>
+                        <div class="col-sm-6 col-md-4 mb-3 mb-md-0">
+                          <div class="card bg-black text-white p-6 pb-8"><img class="card-img"
+                              src="assets/img/team_icons/Nallamala Nets.png" alt="..." />
+                            <div
+                              class="card-img-overlay bg-dark-gradient d-flex flex-column-reverse align-items-center">
+                              <h6 class="text-primary">Boundless Nets, Where Triumph Sets</h6>
+                              <h4 class="text-light">NALLAMALA NETS</h4>
+                            </div><a class="stretched-link" href="teams/nallamala.html" target="_blank"></a>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="carousel-item" data-bs-interval="3000">
+                      <div class="row h-100 align-items-center">
+                        <div class="col-sm-6 col-md-4 mb-3 mb-md-0">
+                          <div class="card bg-black text-white p-6 pb-8"><img class="card-img"
+                              src="assets/img/team_icons/Namdapha Nimblebirds.png" alt="..." />
+                            <div
+                              class="card-img-overlay bg-dark-gradient d-flex flex-column-reverse align-items-center">
+                              <h6 class="text-primary">Rally and Rise, Surpassing the skies</h6>
+                              <h4 class="text-light">NAMDAPHA NIMBLEBIRDS</h4>
+                            </div><a class="stretched-link" href="teams/namdapha.html" target="_blank"></a>
+                          </div>
+                        </div>
+                        <div class="col-sm-6 col-md-4 mb-3 mb-md-0">
+                          <div class="card bg-black text-white p-6 pb-8"><img class="card-img"
+                              src="assets/img/team_icons/Nilgiri Ninjas.png" alt="..." />
+                            <div
+                              class="card-img-overlay bg-dark-gradient d-flex flex-column-reverse align-items-center">
+                              <h6 class="text-primary">Kings of the Swing</h6>
+                              <h4 class="text-light">NILIGIRI NINJAS</h4>
+                            </div><a class="stretched-link" href="teams/nilgiri.html" target="_blank"></a>
+                          </div>
+                        </div>
+                        <div class="col-sm-6 col-md-4 mb-3 mb-md-0">
+                          <div class="card bg-black text-white p-6 pb-8"><img class="card-img"
+                              src="assets/img/team_icons/Pichavaram Phoenixes.png" alt="..." />
+                            <div
+                              class="card-img-overlay bg-dark-gradient d-flex flex-column-reverse align-items-center">
+                              <h6 class="text-primary">Feathered Flames, Victory's Claim, Our Legacy to Fame</h6>
+                              <h4 class="text-light">PICHAVARAM PHOENIXES</h4>
+                            </div><a class="stretched-link" href="teams/pichavaram.html" target="_blank"></a>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="carousel-item">
+                      <div class="row h-100 align-items-center">
+                        <div class="col-sm-6 col-md-4 mb-3 mb-md-0">
+                          <div class="card bg-black text-white p-6 pb-8"><img class="card-img"
+                              src="assets/img/team_icons/Saranda Shuttlers.png" alt="..." />
+                            <div
+                              class="card-img-overlay bg-dark-gradient d-flex flex-column-reverse align-items-center">
+                              <h6 class="text-primary">Hustle and Hit and Never Quit! </h6>
+                              <h4 class="text-light">SARANDA SHUTTLERS</h4>
+                            </div><a class="stretched-link" href="teams/saranda.html" target="_blank"></a>
+                          </div>
+                        </div>
+                        <div class="col-sm-6 col-md-4 mb-3 mb-md-0">
+                          <div class="card bg-black text-white p-6 pb-8"><img class="card-img"
+                              src="assets/img/team_icons/Sundarbans Smashers.png" alt="..." />
+                            <div
+                              class="card-img-overlay bg-dark-gradient d-flex flex-column-reverse align-items-center">
+                              <h6 class="text-primary">Smash. Score. Shine</h6>
+                              <h4 class="text-light">SUNDARBANS SMASHERS</h4>
+                            </div><a class="stretched-link" href="teams/sundarbans.html" target="_blank"></a>
+                          </div>
+                        </div>
+                        <div class="col-sm-6 col-md-4 mb-3 mb-md-0">
+                          <div class="card bg-black text-white p-6 pb-8"><img class="card-img"
+                              src="assets/img/team_icons/Wayanad Warriors.png" alt="..." />
+                            <div
+                              class="card-img-overlay bg-dark-gradient d-flex flex-column-reverse align-items-center">
+                              <h6 class="text-primary">Elevate. Celebrate. Dominate.</h6>
+                              <h4 class="text-light">WAYANAD WARRIORS</h4>
+                            </div><a class="stretched-link" href="teams/wayanad.html" target="_blank"></a>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <button class="carousel-control-prev" type="button" data-bs-target="#carouselLatest"
+                        data-bs-slide="prev"><span class="carousel-control-prev-icon" aria-hidden="true"
+                          style="background-color: grey; border-radius: 50%;"></span><span
+                          class="visually-hidden">Previous</span></button>
+                      <button class="carousel-control-next" type="button" data-bs-target="#carouselLatest"
+                        data-bs-slide="next"><span class="carousel-control-next-icon" aria-hidden="true"
+                          style="background-color: grey; border-radius: 50%;"> </span><span class="visually-hidden">Next
+                        </span></button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      </div>
+      </div>
+      </div>
+    </section>
+
+    <!-- ============================================-->
+    <!-- <section> begin ============================-->
+
+    <section id="matchReports" class="bg-dark py-6 pb-6">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-7 mx-auto text-center my-5">
+            <h5 class="fs-3 fs-lg-5 lh-sm mb-2 text-uppercase">Match Reports</h5>
+            <a class="mb-3 text-uppercase btn btn-sm btn-outline-primary" onclick="window.open('../reports.html')" id="fixtures">All Reports &gt;</a>
+          </div>
+        </div>
+        <div class="row flex-center h-100">
+          <div class="col-xl-9">
+            <div class="carousel slide" id="carouselTestimonials" data-bs-ride="carousel">
+              <div class="carousel-inner" id="carousel-inner">
+                <!-- Cards will be inserted here by JavaScript -->
+              </div>
+              <div class="row mt-5 flex-center">
+                <div class="col-auto position-relative z-index-2">
+                  <ol class="carousel-indicators" id="carousel-indicators">
+                    <!-- Indicators will be inserted here by JavaScript -->
+                  </ol>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <script src="src/js/match_reports_script.js"></script>
+
+    <!-- end of .container-->
+
+    <!-- <section> close ============================-->
+    <!-- ============================================-->
+
+
+
+
+    <!-- ============================================-->
+    <!-- <section> begin ============================-->
+    <section class="py-0 pt-7" id="contact">
+
+      <div class="container">
+        <div class="row" style="display: flex; justify-content: space-between;">
+          <div class="col-11 col-sm-9 col-xl-8" style="width:100%;">
+            <div style="width: 100%"><iframe width="100%" height="200" frameborder="0" scrolling="no" marginheight="0"
+                marginwidth="0"
+                src="https://maps.google.com/maps?width=100%25&amp;height=200&amp;hl=en&amp;q=Sitara%20indoor%20sports%20complex,%20Play%20Field%20Ave,%20Indian%20Institute%20Of%20Technology,%20Chennai,%20Tamil%20Nadu%20600036+(Location)&amp;t=&amp;z=16&amp;ie=UTF8&amp;iwloc=B&amp;output=embed"></iframe>
+            </div>
+          </div>
+          <div class="col-6 col-sm-4 col-xl-3 mb-3" style="margin-top: 1rem; font-size:18px;"><a
+              class="text-800 text-decoration-none fw-bold" href="mailto:23f1002638@ds.study.iitm.ac.in">CONTACT:
+              23f1002638@ds.study.iitm.ac.in</a>
+          </div>
+        </div>
+      </div>
+      <div class="border-bottom border-700"></div>
+      <div class="flex-center my-3">
+        <div class="col-md-6 order-1 order-md-0" style="margin-left: 2rem">
+          <p class="my-2 mx-3 text-800 text-center text-md-start"> Made with&nbsp;
+            <svg class="bi bi-suit-heart-fill" xmlns="http://www.w3.org/2000/svg" width="15" height="15" fill="#EB6453"
+              viewBox="0 0 16 16">
+              <path
+                d="M4 1c2.21 0 4 1.755 4 3.92C8 2.755 9.79 1 12 1s4 1.755 4 3.92c0 3.263-3.234 4.414-7.608 9.608a.513.513 0 0 1-.784 0C3.234 9.334 0 8.183 0 4.92 0 2.755 1.79 1 4 1z"
+                style="animation: pulse 1s infinite;">
+              </path>
+            </svg>&nbsp;by&nbsp;<a class="text-500" href="../our_team.html" target="_blank">PBL WebOps Team &#128279;</a>
+          </p>
+        </div>
+        <div class="col-md-6">
+        </div>
+      </div>
+      </div>
+      <!-- end of .container-->
+
+    </section>
+    <!-- <section> close ============================-->
+    <!-- ============================================-->
+
+
+  </main>
+  <!-- ===============================================-->
+  <!--    End of Main Content-->
+  <!-- ===============================================-->
+
+
+
+
+  <!-- ===============================================-->
+  <!--    JavaScripts-->
+  <!-- ===============================================-->
+  <script src="vendors/@popperjs/popper.min.js"></script>
+  <script src="vendors/bootstrap/bootstrap.min.js"></script>
+  <script src="vendors/is/is.min.js"></script>
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=window.scroll"></script>
+  <script src="vendors/feather-icons/feather.min.js"></script>
+  <script src="src/js/live-score.js"></script>
+  <script src="src/js/standings.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
+  <script>
+    feather.replace();
+  </script>
+  <script src="assets/js/theme.js"></script>
+  <audio src="assets/tada.mp3" id="sound" preload="auto" hidden></audio>
+
+  <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@300;700&amp;display=swap" rel="stylesheet">
+</body>
+</script>
+
+<script type="module">
+  import {initializeApp} from "https://www.gstatic.com/firebasejs/9.19.1/firebase-app.js";
+  import {getDatabase, ref, set, get, child, onValue} from "https://www.gstatic.com/firebasejs/9.19.1/firebase-database.js";
+  import {getAuth, signInWithEmailAndPassword} from "https://www.gstatic.com/firebasejs/9.19.1/firebase-auth.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyCaGqqveCkXhTfdqjSFna64zRfLhTXwY8A",
+    authDomain: "pbl-24.firebaseapp.com",
+    databaseURL: "https://pbl-24-default-rtdb.firebaseio.com",
+    projectId: "pbl-24",
+    storageBucket: "pbl-24.appspot.com",
+    messagingSenderId: "398054851658",
+    appId: "1:398054851658:web:2e0720f489a488555112b3"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const db = getDatabase(app);
+
+  function setupDatabaseListener() {
+    const matchesRef = ref(db, "matches");
+    onValue(matchesRef, (snapshot) => {
+      if (snapshot.exists()) {
+        const matchesData = snapshot.val();
+        console.log(matchesData)
+        createFixtures(matchesData, true);
+        getStandingsTableData(matchesData);
+        hideLoading();
+      } else {
+        console.log("No matches found.");
+
+        hideLoading();
+      }
+    }, (error) => {
+      console.error("Error listening to database changes:", error);
+    });
+  }
+
+  function getValueForKey(key) {
+    const dbRef = ref(db, key);
+    return get(dbRef).then((snapshot) => {
+      if (snapshot.exists()) {
+        return snapshot.val();
+      } else {
+        console.log("No data available for the specified key.");
+        return null;
+      }
+    }).catch((error) => {
+      console.error("Error getting value for key:", error);
+    });
+  }
+
+  getValueForKey("allowDBAccess").then(value => {
+    console.log("Value for key:", value);
+    if (value) {
+      setupDatabaseListener();
+    } else {
+      document.getElementById("liveScoreSec").style.display = "none";
+      document.getElementById("standingsSec").style.display = "none";
+      hideLoading();
+    }
+  });
+
+  getValueForKey("showWinner").then(value => {
+    console.log("Value for key:", value);
+    if (value) {
+      document.getElementById("winnerSec").style.display = "block";
+      document.getElementById("takeMe").innerHTML = "Result";
+      document.getElementById("takeMe").href = "#winnerSec";
+
+      getValueForKey("winner").then(value => {
+        document.querySelector('#winnerSec img').src = "assets/img/team_icons/" + value + ".png";
+        document.querySelector('#winnerSec .infos > h3').innerText = value;
+        document.getElementById("teamPageLink").href = "../teams/" + value.split(' ')[0].toLowerCase() + ".html";
+      });
+
+      const sound = document.getElementById("sound");
+      const triggers = document.querySelectorAll(".js-confetti");
+      const defaults = {
+        disableForReducedMotion: true
+      };
+
+      function fire(particleRatio, opts) {
+        confetti(
+          Object.assign({}, defaults, opts, {
+            particleCount: Math.floor(200 * particleRatio)
+          })
+        );
+      }
+
+      function confettiExplosion(origin) {
+        fire(0.25, {
+          spread: 26,
+          startVelocity: 55,
+          origin
+        });
+        fire(0.2, {
+          spread: 60,
+          origin
+        });
+        fire(0.35, {
+          spread: 100,
+          decay: 0.91,
+          origin
+        });
+        fire(0.1, {
+          spread: 120,
+          startVelocity: 25,
+          decay: 0.92,
+          origin
+        });
+        fire(0.1, {
+          spread: 120,
+          startVelocity: 45,
+          origin
+        });
+      }
+
+      Array.from(triggers).forEach((trigger) => {
+        trigger.addEventListener("click", () => {
+          if (trigger.classList.contains("clicked")){
+            return;
+          }
+          const rect = trigger.getBoundingClientRect();
+          const center = {
+            x: rect.left + rect.width / 2,
+            y: rect.top + rect.height / 2
+          };
+          const origin = {
+            x: center.x / window.innerWidth,
+            y: center.y / window.innerHeight
+          };
+
+          if (sound) {
+            sound.currentTime = 0;
+            sound.play();
+          }
+          confettiExplosion(origin);
+        });
+      });
+
+
+      document.querySelectorAll('#winnerSec .card').forEach(card => {
+        card.addEventListener('click', function () {
+          document.getElementById("teamPageLink").style.display = "block";
+          this.classList.toggle('clicked');
+        });
+      });
+    }
+  });
+
+</script>
+
+</html>

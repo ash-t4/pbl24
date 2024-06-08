@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BANDIPUR BLAZERS</title>
+  <link rel="stylesheet" href="nilgiri.css">
+  <link href="assets/css/theme.css" rel="stylesheet" />
+</head>
+
+<body>
+  <div class="banner-section">
+    <picture>
+      <source media="(max-width:767px)" srcset="../assets/img/pbl_logo.jpg">
+      <img src="../assets/img/pbl_logo.jpg" alt="team banner" style="width:100%;">
+    </picture>
+  </div>
+  <div class="white-section">
+    <div class="container">
+    <img class="icon" src='../assets/img/team_icons/Bandipur Blazers.png' alt="Bandipur Blazers" />
+    </div>
+    <h1 class="team_name">BANDIPUR BLAZERS</h1>
+  </div>
+  <div class="red-section">
+    <p>A powerhouse team known for their relentless drive and unyielding determination 
+    on the court. With a roster of fantastic badminton players, they dominate their 
+    competition with strategic plays and unparalleled teamwork. The Bandipur 
+    Blazers embody the spirit of victory and excellence in every match they play</p>
+    <p class="taglines">"Serve it, smash it, win it, love it."</p>
+  </div>
+  <div class="heading">
+    <h2>SQUAD</h2>
+  </div>
+  <div class="rows1">
+    <div class="player-container" id="player-container"></div>
+  </div>
+
+  <div class="heading">
+    <h3>SUBSTITUTES</h3>
+  </div>
+
+  <div class="rows2">
+    <div class="reserve-player-container" id="reserve-player-container"></div>
+  </div>
+  <!--
+  <footer>
+    <p> Made <span>by</span> PBL WebOps Team </p>
+  </footer>-->
+
+  <div class="border-bottom border-700"></div>
+  <div class="flex-center my-3">
+    <div class="col-md-6 order-1 order-md-0" style="margin-left: 2rem">
+      <p class="my-2 mx-3 text-800 text-center text-md-start"> Made with&nbsp;
+        <svg class="bi bi-suit-heart-fill" xmlns="http://www.w3.org/2000/svg" width="15" height="15" fill="#EB6453"
+          viewBox="0 0 16 16">
+          <path
+            d="M4 1c2.21 0 4 1.755 4 3.92C8 2.755 9.79 1 12 1s4 1.755 4 3.92c0 3.263-3.234 4.414-7.608 9.608a.513.513 0 0 1-.784 0C3.234 9.334 0 8.183 0 4.92 0 2.755 1.79 1 4 1z"
+            style="animation: pulse 1s infinite;">
+          </path>
+        </svg>&nbsp;by&nbsp;<a class="text-500" href="../our_team.html" target="_blank">PBL WebOps Team </a>
+      </p>
+    </div>
+    <div class="col-md-6">
+    </div>
+  </div>
+  
+
+  <script>
+    fetch('./teams_json/bandipur.json')
+    .then(response => response.json())
+    .then(data => {
+      const mainPlayers = data.main_players;
+      const reservePlayers = data.reserve_players;
+
+      const mainPlayerContainer = document.getElementById('player-container');
+      mainPlayers.slice(0, 8).forEach(player => {
+        const playerCard = document.createElement('div');
+        playerCard.className = 'player-card';
+
+        const playerImage = document.createElement('img');
+        playerImage.src = player.image;
+        playerImage.alt = player.name;
+
+        const playerInfo = document.createElement('div');
+        playerInfo.className = 'player-info';
+
+        const playerName = document.createElement('div');
+        playerName.className = 'player-name';
+        playerName.textContent = player.name;
+
+        playerInfo.appendChild(playerName);
+        playerCard.appendChild(playerImage);
+        playerCard.appendChild(playerInfo);
+        mainPlayerContainer.appendChild(playerCard);
+      });
+
+      const reservePlayerContainer = document.getElementById('reserve-player-container');
+      reservePlayers.slice(0, 4).forEach(player => {
+        const playerCard = document.createElement('div');
+        playerCard.className = 'player-card';
+
+        const playerImage = document.createElement('img');
+        playerImage.src = player.image;
+        playerImage.alt = player.name;
+
+        const playerInfo = document.createElement('div');
+        playerInfo.className = 'player-info';
+
+        const playerName = document.createElement('div');
+        playerName.className = 'player-name';
+        playerName.textContent = player.name;
+
+        playerInfo.appendChild(playerName);
+        playerCard.appendChild(playerImage);
+        playerCard.appendChild(playerInfo);
+        reservePlayerContainer.appendChild(playerCard);
+      });
+    })
+    .catch(error => console.error('Error fetching players:', error
+    ));
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,39 @@
+/*@font-face {
+  font-family: 'CustomFont1';
+  src: url('assets/fonts/Industry-Black.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'taglines';
+  src: url('assets/fvonts/Spotlight-mL4r5.ttf') format('truetype');
+}
+@import url('https://fonts.googleapis.com/css2?family=Kaushan+Script&family=Permanent+Marker&display=swap');
+*/
+@font-face{
+  font-family:"taglines";
+  src:url("../fonts/Vampire\ Wars\ Italic.ttf") format('truetype');
+}
+.text-light{
+  letter-spacing: 1px;
+  font-weight: 800;
+  font-size: 1.5rem;
+}
+.text-primary{
+  font-family: "taglines"!important;
+  font-weight: 200;
+  font-style:initial;
+  font-size: 1rem;
+}
+.card-img{
+    width: 300px; /* adjust the width as needed */
+    height: 300px; /* adjust the height as needed */
+    object-fit: cover; /* this will ensure the image is not distorted */
+    border-style:solid;
+    border-color:#ffecd6;
+    border-width: 4px;
+    border-radius: 50%;
+    box-shadow: 0 0 10px rgba(8, 3, 27, 0.5);
+    margin-right:auto;
+    margin-left:auto;
+    max-width: 100%;
+    height: auto;
+  }

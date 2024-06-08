@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>PBL | Team Profiles</title>
+  <link rel="apple-touch-icon" sizes="180x180" href="assets/img/favicons/favicon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/img/favicons/favicon.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="assets/img/favicons/favicon.png">
+  <link rel="manifest" href="assets/img/favicons/manifest.json">
+  <meta name="theme-color" content="#ffffff">
+  <link href="assets/css/score.css" rel="stylesheet" />
+
+  <style>
+    html,
+    body {
+      margin: 0;
+      padding: 0;
+      background-color: black;
+      color: white;
+      font-family: Arial, sans-serif;
+      height: 85vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
+    ::-webkit-scrollbar {
+      width: 0px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: black;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background-color: darkgrey;
+      border: 1px solid black;
+    }
+
+    h1 {
+      margin: 20px 30px;
+      color: white;
+      text-align: center;
+    }
+
+    #mainContainer {
+      display: flex;
+      gap: 40px;
+      flex-wrap: no-wrap;
+      margin: 30px;
+    }
+
+    .profile-card {
+      background-color: #333;
+      border-radius: 10px;
+      overflow: hidden;
+      text-align: center;
+      width: 25%;
+      transition: transform 0.3s;
+      cursor: pointer;
+    }
+
+    .profile-card:hover {
+      transform: scale(1.05);
+    }
+
+    .profile-card img {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+    }
+
+    .profile-card h2 {
+      margin: 10px 5px;
+      color: white;
+    }
+
+    @media (max-width: 500px) {
+      #mainContainer {
+        flex-direction: column;
+        gap: 20px;
+        padding: 5px;
+        margin: 30px;
+      }
+
+      #mainContainer>div {
+        width: 100%;
+      }
+
+      html,
+      body {
+        height: auto !important;
+        display: block !important;
+      }
+      
+      .profile-card img {
+        height: 115px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <h1>MEET OUR TEAM</h1>
+  <div id="mainContainer">
+    <div class="profile-card" onclick="location.href='https://www.linkedin.com/in/ashwanth-v-012b79299?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app'">
+      <img src="assets/img/profiles/person1.png" alt="Ashwanth">
+      <h2>Ashwanth</h2>
+    </div>
+    <div class="profile-card" onclick="location.href='https://www.linkedin.com/in/kirandwip-paul-40812025a?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app'">
+      <img src="assets/img/profiles/person1.png" alt="Kirandwip">
+      <h2>Kirandwip Paul</h2>
+    </div>
+    <div class="profile-card" onclick="location.href='https://www.linkedin.com/in/devashish-belwal-a8308a2b0'">
+      <img src="assets/img/profiles/person1.png" alt="Person 3">
+      <h2>Devashish Belwal</h2>
+    </div>
+    <div class="profile-card" onclick="location.href='https://www.linkedin.com/in/dhairyasheel-patil-1013b199?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app'">
+      <img src="assets/img/profiles/person1.png" alt="Person 4">
+      <h2>Dhairyasheel Patil</h2>
+    </div>
+  </div>
+</body>
+
+</html>
